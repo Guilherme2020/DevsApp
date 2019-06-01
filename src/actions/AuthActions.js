@@ -41,6 +41,79 @@ export const changeName = (name) => {
 
 }
 
+export const signIn = (email,password) => {
+
+    return(dispatch) => {
+        firebase.auth().signInWithEmailAndPassword(email,password)
+            .then( (user) =>{
+                let uid = firebase.auth().currentUser.uid
+                dispatch({
+                    type:'changeUid',
+                    payload:{
+                        uid:uid
+                    }
+                })
+            })
+            .catch((error)=>{
+                switch(error.code){
+                    case 'auth/invalid-email':
+                        alert('email invalido')
+                        break;
+                    case 'auth/user-disabled':
+                        alert('Usuario desativado')
+                        break;
+                    case 'auth/user-not-found':
+                        alert('nao existe usuário')
+                        break;
+                    case 'auth/wrong-password':
+                        alert('E-mail e/ou senha errados!')
+                        break;
+                    
+
+                }
+            })
+    }
+
+} 
+
+export const signUp = (name,email,password) => {
+    return(dispatch) => {
+        firebase.auth().createUserWithEmailAndPassword(email,password)
+            .then(()=>{
+                
+                let uid = firebase.auth().currentUser.uid;
+                
+                firebase.database().ref('users').child(uid).set({
+                    name:name
+                });
+
+                dispatch({
+                    type:'changeUid',
+                    payload:{
+                        uid:uid
+                    }
+                });
+
+
+            })
+            .catch((error)=>{
+                switch(error.code){
+                    case 'auth/email-already-in-use':
+                        alert('Email já utilizado')
+                        break;
+                    case 'auth/invalid-email':
+                        alert('Email inválido')
+                        break;
+                    case 'auth/weak-password':
+                        alert('digite uma senha melhor');
+                        break;
+                    
+                }
+            })
+    }
+}
+
+
 export const changeEmail = () => {
     return{
         type:'changeEmail',

@@ -2,12 +2,12 @@
 import React,{Component} from 'react'
 import {View,Text,TextInput,StyleSheet,Button} from 'react-native'
 import {connect} from 'react-redux'
-import {checkLogin,changeEmail,changePassword,changeName,signUp} from './actions/AuthActions'
+import {checkLogin,changeEmail,changePassword,signIn} from './actions/AuthActions'
 
 
 
 
-export class SignUp extends Component {
+export class SignIn extends Component {
     static navigationOptions = {
         title:'Cadastrar',
 
@@ -27,11 +27,7 @@ export class SignUp extends Component {
         return(
             <View style={styles.container}>
                 <Text style={styles.text}>Digite seu email</Text>
-                <TextInput 
-                    style={styles.input}
-                    value={this.props.name}
-                    onChangeText={this.props.changeName}
-                />
+               
                 <TextInput 
                     style={styles.input}
                     value={this.props.email}
@@ -46,9 +42,9 @@ export class SignUp extends Component {
                 />
                 <View>
                     <Button 
-                        title='Cadastrar'
+                        title='Entrar'
                         onPress={()=>{
-                            this.props.signUp(this.props.email,this.props.password)
+                            this.props.signin(this.props.name,this.props.email,this.props.password)
                         }}
                     />
                 </View>
@@ -83,11 +79,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return{
-       
+        name: state.auth.name, 
         email:state.auth.email,
         password:state.auth.password,
 
     }
 }
-const SignUpConnect = connect(mapStateToProps,{checkLogin,changeEmail,changePassword,changeName,signUp})(SignUp)
-export default SignUpConnect
+const SignInConnect = connect(mapStateToProps,{checkLogin,changeEmail,changePassword,signIn})(SignIn)
+export default SignInConnect
