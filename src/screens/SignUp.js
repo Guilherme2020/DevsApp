@@ -1,8 +1,8 @@
 
 import React,{Component} from 'react'
-import {View,Text,TextInput,StyleSheet,Button} from 'react-native'
+import {View,Text,TextInput,StyleSheet,Button,Keyboard} from 'react-native'
 import {connect} from 'react-redux'
-import {checkLogin,changeEmail,changePassword,changeName,signUp} from './actions/AuthActions'
+import {checkLogin,changeEmail,changePassword,changeName,signUp} from '../actions/AuthActions'
 
 
 
@@ -20,7 +20,12 @@ export class SignUp extends Component {
         this.props.checkLogin();
     }
 
-
+    componentDidUpdate(){
+        if(this.props.status == 1){
+            Keyboard.dismiss()
+            this.props.navigation.navigate('Conversas')
+        }
+    }
     
 
     render(){
@@ -83,10 +88,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return{
-       
+        name:state.auth.name,
         email:state.auth.email,
         password:state.auth.password,
-
+        status:state.auth.status
     }
 }
 const SignUpConnect = connect(mapStateToProps,{checkLogin,changeEmail,changePassword,changeName,signUp})(SignUp)

@@ -6,24 +6,45 @@ export const checkLogin = () => {
 
     return (dispatch) => {
 
-        let user = firebase.auth().currentUser;
-        if(user){
-            dispatch({
-                type: 'changeStatus',
-                payload:{
-                    status: 1
-                }
-            });
-            //usuario logado
-        }else{
-            dispatch({
-                type:'changeStatus',
-                payload: {
-                    status: 2  
-                }
-            })
-            //usuario nao logado
-        }
+
+        firebase.auth().onAuthStateChanged((user)=>{
+            if(user){
+                dispatch({
+                    type:'changeUid',
+                    payload:{
+                        uid:user.uid 
+                    }
+                })
+            }else{
+                dispatch({
+                    type:'changeStatus',
+                    payload:{
+                        status:2
+                    }
+                })
+            }
+        })
+
+
+
+        // let user = firebase.auth().currentUser;
+        // if(user){
+        //     dispatch({
+        //         type: 'changeStatus',
+        //         payload:{
+        //             status: 1
+        //         }
+        //     });
+        //     //usuario logado
+        // }else{
+        //     dispatch({
+        //         type:'changeStatus',
+        //         payload: {
+        //             status: 2  
+        //         }
+        //     })
+        //     //usuario nao logado
+        // }
 
     }
 
@@ -113,6 +134,17 @@ export const signUp = (name,email,password) => {
     }
 }
 
+export const siginOunt = () => {
+
+    firebase.auth().signOut();
+
+    return {
+        type:"changeStatus",
+        payload:{
+            status:2
+        }
+    }
+}
 
 export const changeEmail = () => {
     return{

@@ -1,28 +1,28 @@
 import React,{Component} from 'react'
 import {View,Text,StyleSheet} from 'react-native'
 import {connect} from 'react-redux'
-import {checkLogin} from './actions/AuthActions'
 
 
 
 
-export class Conversas extends Component {
+export class ConversaInterna extends Component {
     static navigationOptions = {
-        title:'',
-        header: null
+        title:'Conversa Interena',
+        
+      
     }
     constructor(props){
         super(props)
         this.state = {
 
         }
-        this.props.checkLogin();
+       
     }
 
     render(){
         return(
             <View style={styles.container}>
-                <Text>Paagina Conversas...{this.state.status}</Text>
+                <Text>Paagina Conversas internas...</Text>
             </View>
         )
     }
@@ -39,8 +39,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return{
-        status:state.auth.status
+        status:state.auth.status,
+        uid:state.auth.uid
     }
 }
-const ConversasConnect = connect(mapStateToProps,{checkLogin})(Conversas)
-export default ConversasConnect
+const ConversaInternaConnect = connect(mapStateToProps,{})(ConversaInterna)
+export default ConversaInternaConnect

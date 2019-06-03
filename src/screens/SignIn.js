@@ -1,15 +1,16 @@
 
 import React,{Component} from 'react'
-import {View,Text,TextInput,StyleSheet,Button} from 'react-native'
+import {View,Text,TextInput,StyleSheet,Button,Keyboard} from 'react-native'
 import {connect} from 'react-redux'
-import {checkLogin,changeEmail,changePassword,signIn} from './actions/AuthActions'
+import {checkLogin,changeEmail,changePassword,signIn} from '../actions/AuthActions'
 
 
 
 
 export class SignIn extends Component {
     static navigationOptions = {
-        title:'Cadastrar',
+        title:'Login',
+        header:null
 
     }
     constructor(props){
@@ -21,11 +22,25 @@ export class SignIn extends Component {
     }
 
 
-    
+    componentDidUpdate(){
+        if(this.props.status == 1){
+            Keyboard.dismiss()
+            this.props.navigation.navigate('Conversas')
+        }
+    }
 
     render(){
         return(
             <View style={styles.container}>
+
+                <Text>
+                    Usuário Logado: {this.props.uid }
+                </Text>
+
+                <Text>
+                    Status de Login : {this.props.status}
+                </Text>
+
                 <Text style={styles.text}>Digite seu email</Text>
                
                 <TextInput 
@@ -44,7 +59,7 @@ export class SignIn extends Component {
                     <Button 
                         title='Entrar'
                         onPress={()=>{
-                            this.props.signin(this.props.name,this.props.email,this.props.password)
+                            this.props.signin(this.props.email,this.props.password)
                         }}
                     />
                 </View>
@@ -56,6 +71,19 @@ export class SignIn extends Component {
 
 
 }
+const mapStateToProps = (state) => {
+    return{
+        uid: state.auth.uid, 
+        email:state.auth.email,
+        password:state.auth.password,
+        status: state.auth.status
+
+    }
+}
+const SignInConnect = connect(mapStateToProps,{checkLogin,changeEmail,changePassword,signIn})(SignIn)
+export default SignInConnect
+
+
 const styles = StyleSheet.create({
     input:{
         height:40,width:'80%',
@@ -76,14 +104,3 @@ const styles = StyleSheet.create({
     }
 
 })
-
-const mapStateToProps = (state) => {
-    return{
-        name: state.auth.name, 
-        email:state.auth.email,
-        password:state.auth.password,
-
-    }
-}
-const SignInConnect = connect(mapStateToProps,{checkLogin,changeEmail,changePassword,signIn})(SignIn)
-export default SignInConnect
