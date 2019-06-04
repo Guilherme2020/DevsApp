@@ -37,7 +37,8 @@ const Navegador = StackNavigator({
     screen:Home
   },
   Conversas:{
-    screen:Conversas
+    screen:Conversas,
+    
   },
   SignIn:{
     screen:SignIn

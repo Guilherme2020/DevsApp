@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {View,Text,StyleSheet} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import {connect} from 'react-redux'
-import {signOut} from '../actions/AuthActions'
+import {siginOunt} from '../actions/AuthActions'
 
 
 
@@ -20,13 +20,16 @@ export class Config extends Component {
        
     }
     logout = () => {
-        this.props.signOut();
-        this.props.navigation.dispatch(navigationOptions.reset({
-            index:0,
-            actions:[
-                NavigationActions.navigate({routeName:'Home'})
-            ]
-        }));
+        this.props.siginOunt();
+
+        window.globalNavigator.navigate('Home')
+
+        // this.props.navigation.dispatch(navigationOptions.reset({
+        //     index:0,
+        //     actions:[
+        //         NavigationActions.navigate({routeName:'Home'})
+        //     ]
+        // }));
         
     }
 
@@ -59,5 +62,5 @@ const mapStateToProps = (state) => {
         uid:state.auth.uid
     }
 }
-const ConfigConnect = connect(mapStateToProps,{signOut})(Config)
+const ConfigConnect = connect(mapStateToProps,{siginOunt})(Config)
 export default ConfigConnect

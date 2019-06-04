@@ -59,7 +59,6 @@ const mapStateToProps = (state) => {
     return {
         contacts: state.chat.contacts,
         uid: state.auth.uid,
-        // activeChat: state.chat.activeChat
     }
 }
 const ContatoListConnect = connect(mapStateToProps, { getContactList,createChat })(ContatoList)
